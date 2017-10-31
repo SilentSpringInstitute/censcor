@@ -9,7 +9,7 @@ test_that("censcor works", {
     
     fit <- censcor(x ~ y, d1, seed = 1, iter = 600)
     
-    expect_equal(rstan::summary(fit)$summary["rho", "50%"], 0.529, tol = 0.001)
+    expect_equal(rstan::summary(fit)$summary["rho", "50%"], 0.446, tol = 0.001)
   })
   
   test_that("censcor works for singly left-censored data", {
@@ -51,7 +51,7 @@ test_that("censcor works", {
   })
   
   test_that("censcor works for combined left-, right-, and interval-censored data", {
-    d1 <- generate_censored_data_mixed(100, 0.5, 0.1, direction = c(-1, 1, 2))
+    d1 <- generate_censored_data(100, 0.5, 0.1, direction = c(-1, 1, 2))
     
     fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), d1, seed = 1, iter = 600)
     

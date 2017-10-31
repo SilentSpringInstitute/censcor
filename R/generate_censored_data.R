@@ -92,7 +92,7 @@ generate_censored_data <- function(N, rho, L_prob, direction = c(-1), adj = FALS
     X_cens_upper[cens == 2] <- L[3]
   }
   
-  data.frame(
+  res <- data.frame(
     x_true = X[,1],
     x = X_cens[,1],
     x_upper = X_cens_upper[,1],
@@ -100,7 +100,12 @@ generate_censored_data <- function(N, rho, L_prob, direction = c(-1), adj = FALS
     y_true = X[,2],
     y = X_cens[,2],
     y_upper = X_cens_upper[,2],
-    y_cens = cens[,2],
-    adj = z
+    y_cens = cens[,2]
   )
+  
+  if(adj == TRUE) {
+    res$adj = z
+  }
+  
+  res
 }
