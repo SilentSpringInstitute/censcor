@@ -34,7 +34,9 @@ after_script:
 
 after_success:
   - travis_wait 40 tar -C .. -xf $PKG_TARBALL
-  - Rscript -e 'covr::codecov()'
+  - |
+    export PATH=/usr/local/clang-3.9.0/bin/:$PATH
+    Rscript -e 'covr::codecov()'
   
 after_failure:
   - cat censcor.Rcheck/00*
