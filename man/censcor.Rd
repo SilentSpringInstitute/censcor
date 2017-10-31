@@ -4,7 +4,7 @@
 \alias{censcor}
 \title{Estimate correlation between two censored variables}
 \usage{
-censcor(x, y, x_cens, y_cens)
+censcor(formula, df, ...)
 }
 \description{
 Estimate correlation between two censored variables
