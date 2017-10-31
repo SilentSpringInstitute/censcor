@@ -3,6 +3,7 @@
 #' @param formula formula describing the correlation to estimate
 #' @param df data frame containing the data described by the formula
 #' @param adj formula adjustment column used for data
+#' @param ... arguments passed to rstan::sampling
 #' 
 #' @details 
 #' The most basic formula describes two variables that aren't censored:
@@ -30,11 +31,11 @@
 #' for interval censored values.
 #' 
 #' `censcor` returns a `stanfit` object. The fit includes:
-#' \item{mu_x}{the estimated mean of the x variable}
-#' \item{sigma_x}{the estimated standard deviation of the x variable}
-#' \item{mu_y}{the estimated mean of the y variable}
-#' \item{sigma_y}{the estimated standard deviation of the y variable}
-#' \item{rho}{the estimated correlation between x and y}
+#' - mu_x, the estimated mean of the x variable
+#' - sigma_x, the estimated standard deviation of the x variable
+#' - mu_y, the estimated mean of the y variable
+#' - sigma_y, the estimated standard deviation of the y variable
+#' - rho, the estimated correlation between x and y
 #' 
 #' @return stanfit object
 #' 

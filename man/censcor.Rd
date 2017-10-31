@@ -12,6 +12,8 @@ censcor(formula, df, adj = NULL, ...)
 \item{df}{data frame containing the data described by the formula}
 
 \item{adj}{formula adjustment column used for data}
+
+\item{...}{arguments passed to rstan::sampling}
 }
 \value{
 stanfit object
@@ -45,11 +47,11 @@ you can use any value in the upper limit column for non-interval censored values
 for interval censored values.
 
 `censcor` returns a `stanfit` object. The fit includes:
-\item{mu_x}{the estimated mean of the x variable}
-\item{sigma_x}{the estimated standard deviation of the x variable}
-\item{mu_y}{the estimated mean of the y variable}
-\item{sigma_y}{the estimated standard deviation of the y variable}
-\item{rho}{the estimated correlation between x and y}
+- mu_x, the estimated mean of the x variable
+- sigma_x, the estimated standard deviation of the x variable
+- mu_y, the estimated mean of the y variable
+- sigma_y, the estimated standard deviation of the y variable
+- rho, the estimated correlation between x and y
 }
 \examples{
 \dontrun{

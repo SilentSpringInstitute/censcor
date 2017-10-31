@@ -3,7 +3,6 @@
 \docType{package}
 \name{censcor-package}
 \alias{censcor-package}
-\alias{censcor}
 \title{Bayesian Estimation of Correlations between Censored Variables}
 \description{
 A set of tools for fully Bayesian estimation of correlations between left and interval censored variables.

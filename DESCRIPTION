@@ -3,14 +3,20 @@ Type: Package
 Title: Bayesian estimation of correlations between censored variables
 Version: 1.0
 Date: 2017-10-27
-Author: Herb Susmann
+Authors@R: c(
+  person("Herb", "Susmann", email = "susmann@silentspring.org", role = c("cre", "aut")),
+  person("Silent Spring Institute", role = "cph")
+  )
+URL: http://github.com/silentspringinstitute/censcor
+BugReports: http://github.com/silentspringinstitute/censcor/issues
 Maintainer: Herb Susmann <susmann@silentspring.org>
-Description: More about what it does (maybe more than one line)
-License: Apache 2
-Depends: R (>= 3.0.2), Rcpp (>= 0.12.13), methods
+Description: Estimate correlations between left, right, and interval censored variables using Stan's Hamiltonian MCMC sampler.
+License: Apache License 2.0 | file LICENSE
+Depends: R (>= 3.0.2), Rcpp (>= 0.12.13), methods, MASS, stringr
 Imports: rstan (>= 2.15.1), rstantools (>= 1.2.0)
 LinkingTo: StanHeaders (>= 2.15.0.1), rstan (>= 2.15.1), BH (>= 1.65.0.1), Rcpp (>= 0.12.13), RcppEigen (>= 0.3.2.9.0)
 RoxygenNote: 6.0.1
 Suggests: knitr,
-    rmarkdown
+    rmarkdown,
+    bayesplot
 VignetteBuilder: knitr

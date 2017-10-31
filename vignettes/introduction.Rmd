@@ -7,6 +7,7 @@ vignette: >
   %\VignetteIndexEntry{Vignette Title}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+  %\VignetteDepends{bayesplot}
 ---
 
 ```{r, include = FALSE}
@@ -92,7 +93,7 @@ fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df)
 
 Left, right, and interval censoring can be combined within a data frame.
 
-```{r}
+```{r, eval = FALSE}
 # df example:
 #  x   x_upper  x_cens   y   y_upper   y_cens
 #  1   5        2        1   1         0        # x is interval censored between 1 and 5; y is not censored
@@ -116,14 +117,14 @@ fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df)
 - `sigma_y` is the estimated standard deviation of the `y` variable
 - `rho` is the estimated correlation between `x` and `y`
 
-```{r}
+```{r, message=FALSE, }
 library(rstan)
 
 df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0.5, direction = -1)
 
-fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df)
+fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df, iter = 600)
 
-summary(fit)
+fit
 
 ```
 
@@ -132,5 +133,5 @@ You can visualize the estimates using the `bayesplot` package:
 ```{r}
 library(bayesplot)
 
-mcmc_dens(fit, pars = c("rho"))
+mcmc_dens(as.array(fit), pars = c("rho"))
 ```

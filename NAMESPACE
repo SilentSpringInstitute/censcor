@@ -2,8 +2,10 @@
 
 export(censcor)
 export(generate_censored_data)
+import(methods)
 import(stats)
 importFrom(MASS,mvrnorm)
+importFrom(Rcpp,loadModule)
 importFrom(rstan,sampling)
 importFrom(stringr,str_detect)
 importFrom(stringr,str_split)

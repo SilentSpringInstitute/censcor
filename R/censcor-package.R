@@ -4,13 +4,14 @@
 #' 
 #' @docType package
 #' @name censcor-package
-#' @aliases censcor
 #' 
 #' @importFrom rstan sampling
 #' 
 #' @importFrom MASS mvrnorm
+#' @importFrom Rcpp loadModule
 #' 
 #' @import stats
+#' @import methods
 #' 
 #' @useDynLib censcor, .registration = TRUE
 NULL
