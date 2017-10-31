@@ -4,7 +4,8 @@
 \alias{generate_censored_data}
 \title{Generate random censored data}
 \usage{
-generate_censored_data(N, rho, L_prob, direction = c(-1))
+generate_censored_data(N, rho, L_prob, direction = c(-1), adj = FALSE,
+  adj_sigma = NULL)
 }
 \arguments{
 \item{N}{number of rows}
@@ -14,6 +15,10 @@ generate_censored_data(N, rho, L_prob, direction = c(-1))
 \item{L_prob}{percentage of data to censor}
 
 \item{direction}{types of censoring to include; acceptable values are -1 (left), 1 (right), 2 (interval) or any combination}
+
+\item{adj}{whether to adjust values by a normally distributed variable}
+
+\item{adj_sigma}{if adj is true, this specifies the standard deviation of the adjustment variable}
 }
 \value{
 data frame

@@ -1,5 +1,5 @@
 ---
-title: "Introduction to censR"
+title: "Introduction to censcor"
 author: "Herb Susmann"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
@@ -10,14 +10,14 @@ vignette: >
 ---
 
 ```{r, include = FALSE}
-library(censR)
+library(censcor)
 ```
 
-The `censR` package provides routines for performing Bayesian estimation of the correlation between two censored variables. The inference is conducted with `Stan`, which uses the `No-U-Turn Hamiltonian Monte-Carlo` algorithm for drawing from the posterior distribution.
+The `censcor` package provides routines for performing Bayesian estimation of the correlation between two censored variables. The inference is conducted with `Stan`, which uses the `No-U-Turn Hamiltonian Monte-Carlo` algorithm for drawing from the posterior distribution.
 
 ## Usage
 
-The main function in `censR` is `censcor`, which computes correlations between two variables. `censcor` takes as arguments a formula describing the correlation to estimate and a data frame. The formula syntax is modeled after the censoring syntax in `brms`.
+The main function is `censcor`, which computes correlations between two variables. `censcor` takes as arguments a formula describing the correlation to estimate and a data frame. The formula syntax is modeled after the censoring syntax in `brms`.
 
 The formula syntax is:
 

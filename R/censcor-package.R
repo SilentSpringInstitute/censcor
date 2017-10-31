@@ -3,8 +3,8 @@
 #' A set of tools for fully Bayesian estimation of correlations between left and interval censored variables.
 #' 
 #' @docType package
-#' @name censR-package
-#' @aliases censR
+#' @name censcor-package
+#' @aliases censcor
 #' 
 #' @importFrom rstan sampling
 #' 
@@ -12,5 +12,5 @@
 #' 
 #' @import stats
 #' 
-#' @useDynLib censR, .registration = TRUE
+#' @useDynLib censcor, .registration = TRUE
 NULL

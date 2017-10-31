@@ -1,27 +1,8 @@
 
 
-gen_censored_data_z <- function(N, rho, L_prob, v = 0.5) {
-  sigma <- matrix(
-    c(1, rho, rho, 1),
-    ncol = 2, byrow = T
-  )
-  mu <- rep(0, 2)
-  
-  X <- MASS::mvrnorm(n = N, mu, sigma)
-  
-  z <- rnorm(N, 0, v)
-  X_adj = X - z
-  
-  L <- quantile(X[,1], probs = c(L_prob))
-  
-  X_cens <- X_adj
-  cens <- X_cens < L
-  X_cens[cens] <- L
-  
-  return(list(X = X, X_adj = X_adj, X_cens = X_cens, cens = cens, z = z))
-}
-
 test_that("censcor works", {
+  skip_on_cran()
+  
   test_that("censcor works for noncensored data", {
     set.seed(1)
     d1 <- generate_censored_data(100, 0.5, 0, direction = -1)

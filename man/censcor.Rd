@@ -4,12 +4,14 @@
 \alias{censcor}
 \title{Estimate correlation between two censored variables.}
 \usage{
-censcor(formula, df, ...)
+censcor(formula, df, adj = NULL, ...)
 }
 \arguments{
 \item{formula}{formula describing the correlation to estimate}
 
 \item{df}{data frame containing the data described by the formula}
+
+\item{adj}{formula adjustment column used for data}
 }
 \value{
 stanfit object
