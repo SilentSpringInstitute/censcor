@@ -27,7 +27,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_censored_correlations");
-    reader.add_event(67, 67, "end", "model_censored_correlations");
+    reader.add_event(71, 71, "end", "model_censored_correlations");
     return reader;
 }
 
@@ -99,6 +99,40 @@ struct binormal_cdf_functor__ {
                  const T1__& z2,
                  const T2__& rho, std::ostream* pstream__) const {
         return binormal_cdf(z1, z2, rho, pstream__);
+    }
+};
+
+template <typename T0__, typename T1__, typename T2__>
+typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
+binormal_ccdf(const T0__& z1,
+                  const T1__& z2,
+                  const T2__& rho, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__>::type fun_scalar_t__;
+    typedef fun_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        fun_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+    int current_statement_begin__ = -1;
+    try {
+
+        return stan::math::promote_scalar<fun_return_scalar_t__>(binormal_cdf(-(z1),-(z2),rho, pstream__));
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+
+
+struct binormal_ccdf_functor__ {
+    template <typename T0__, typename T1__, typename T2__>
+        typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
+    operator()(const T0__& z1,
+                  const T1__& z2,
+                  const T2__& rho, std::ostream* pstream__) const {
+        return binormal_ccdf(z1, z2, rho, pstream__);
     }
 };
 
@@ -705,7 +739,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_censored_correlations_interval");
-    reader.add_event(100, 100, "end", "model_censored_correlations_interval");
+    reader.add_event(173, 173, "end", "model_censored_correlations_interval");
     return reader;
 }
 
@@ -777,6 +811,40 @@ struct binormal_cdf_functor__ {
                  const T1__& z2,
                  const T2__& rho, std::ostream* pstream__) const {
         return binormal_cdf(z1, z2, rho, pstream__);
+    }
+};
+
+template <typename T0__, typename T1__, typename T2__>
+typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
+binormal_ccdf(const T0__& z1,
+                  const T1__& z2,
+                  const T2__& rho, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__>::type fun_scalar_t__;
+    typedef fun_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        fun_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+    int current_statement_begin__ = -1;
+    try {
+
+        return stan::math::promote_scalar<fun_return_scalar_t__>(binormal_cdf(-(z1),-(z2),rho, pstream__));
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+
+
+struct binormal_ccdf_functor__ {
+    template <typename T0__, typename T1__, typename T2__>
+        typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
+    operator()(const T0__& z1,
+                  const T1__& z2,
+                  const T2__& rho, std::ostream* pstream__) const {
+        return binormal_ccdf(z1, z2, rho, pstream__);
     }
 };
 
@@ -1104,6 +1172,26 @@ public:
 
         stan::math::initialize(T, DUMMY_VAR__);
         stan::math::fill(T,DUMMY_VAR__);
+        T__ sigma_x_adj;
+        (void) sigma_x_adj;  // dummy to suppress unused var warning
+
+        stan::math::initialize(sigma_x_adj, DUMMY_VAR__);
+        stan::math::fill(sigma_x_adj,DUMMY_VAR__);
+        T__ sigma_y_adj;
+        (void) sigma_y_adj;  // dummy to suppress unused var warning
+
+        stan::math::initialize(sigma_y_adj, DUMMY_VAR__);
+        stan::math::fill(sigma_y_adj,DUMMY_VAR__);
+        T__ rho_xy_coef;
+        (void) rho_xy_coef;  // dummy to suppress unused var warning
+
+        stan::math::initialize(rho_xy_coef, DUMMY_VAR__);
+        stan::math::fill(rho_xy_coef,DUMMY_VAR__);
+        T__ rho_yx_coef;
+        (void) rho_yx_coef;  // dummy to suppress unused var warning
+
+        stan::math::initialize(rho_yx_coef, DUMMY_VAR__);
+        stan::math::fill(rho_yx_coef,DUMMY_VAR__);
 
 
         try {
@@ -1113,6 +1201,10 @@ public:
             stan::math::assign(get_base1_lhs(T,2,2,"T",1), square(sigma_y));
             stan::math::assign(get_base1_lhs(mu,1,"mu",1), mu_x);
             stan::math::assign(get_base1_lhs(mu,2,"mu",1), mu_y);
+            stan::math::assign(sigma_x_adj, (sigma_x * sqrt((1 - square(rho)))));
+            stan::math::assign(sigma_y_adj, (sigma_y * sqrt((1 - square(rho)))));
+            stan::math::assign(rho_xy_coef, (rho * (sigma_x / sigma_y)));
+            stan::math::assign(rho_yx_coef, (rho * (sigma_y / sigma_x)));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -1136,6 +1228,26 @@ public:
                 }
             }
         }
+        if (stan::math::is_uninitialized(sigma_x_adj)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: sigma_x_adj";
+            throw std::runtime_error(msg__.str());
+        }
+        if (stan::math::is_uninitialized(sigma_y_adj)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: sigma_y_adj";
+            throw std::runtime_error(msg__.str());
+        }
+        if (stan::math::is_uninitialized(rho_xy_coef)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: rho_xy_coef";
+            throw std::runtime_error(msg__.str());
+        }
+        if (stan::math::is_uninitialized(rho_yx_coef)) {
+            std::stringstream msg__;
+            msg__ << "Undefined transformed parameter: rho_yx_coef";
+            throw std::runtime_error(msg__.str());
+        }
 
         const char* function__ = "validate transformed params";
         (void) function__;  // dummy to suppress unused var warning
@@ -1153,13 +1265,58 @@ public:
                 if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),0)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),0))))) {
 
                     lp_accum__.add(multi_normal_log(stan::math::to_row_vector(stan::math::array_builder<double >().add(get_base1(x_lower,i,"x_lower",1)).add(get_base1(y_lower,i,"y_lower",1)).array()),mu,T));
-                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),0)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),1))))) {
+                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),0)) && primitive_value(logical_neq(get_base1(cens_y,i,"cens_y",1),0))))) {
 
-                    lp_accum__.add((normal_log(get_base1(x_lower,i,"x_lower",1),mu_x,sigma_x) + log_sub_exp(normal_cdf_log(get_base1(y_upper,i,"y_upper",1),(mu_y + ((rho * (sigma_y / sigma_x)) * (get_base1(x_lower,i,"x_lower",1) - mu_x))),(sigma_y * sqrt((1 - square(rho))))),normal_cdf_log(get_base1(y_lower,i,"y_lower",1),(mu_y + ((rho * (sigma_y / sigma_x)) * (get_base1(x_lower,i,"x_lower",1) - mu_x))),(sigma_y * sqrt((1 - square(rho))))), pstream__)));
-                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),1)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),0))))) {
+                    lp_accum__.add(normal_log(get_base1(x_lower,i,"x_lower",1),mu_x,sigma_x));
+                    if (as_bool(logical_eq(get_base1(cens_y,i,"cens_y",1),-(1)))) {
 
-                    lp_accum__.add((normal_log(get_base1(y_lower,i,"y_lower",1),mu_y,sigma_y) + log_sub_exp(normal_cdf_log(get_base1(x_upper,i,"x_upper",1),(mu_x + ((rho * (sigma_x / sigma_y)) * (get_base1(y_lower,i,"y_lower",1) - mu_y))),(sigma_x * sqrt((1 - square(rho))))),normal_cdf_log(get_base1(x_lower,i,"x_lower",1),(mu_x + ((rho * (sigma_x / sigma_y)) * (get_base1(y_lower,i,"y_lower",1) - mu_y))),(sigma_x * sqrt((1 - square(rho))))), pstream__)));
+                        lp_accum__.add(normal_cdf_log(get_base1(y_lower,i,"y_lower",1),(mu_y + (rho_yx_coef * (get_base1(x_lower,i,"x_lower",1) - mu_x))),sigma_y_adj));
+                    } else if (as_bool(logical_eq(get_base1(cens_y,i,"cens_y",1),1))) {
+
+                        lp_accum__.add(normal_ccdf_log(get_base1(y_lower,i,"y_lower",1),(mu_y + (rho_yx_coef * (get_base1(x_lower,i,"x_lower",1) - mu_x))),sigma_y_adj));
+                    } else if (as_bool(logical_eq(get_base1(cens_y,i,"cens_y",1),2))) {
+
+                        lp_accum__.add(log_sub_exp(normal_cdf_log(get_base1(y_upper,i,"y_upper",1),(mu_y + (rho_yx_coef * (get_base1(x_lower,i,"x_lower",1) - mu_x))),sigma_y_adj),normal_cdf_log(get_base1(y_lower,i,"y_lower",1),(mu_y + (rho_yx_coef * (get_base1(x_lower,i,"x_lower",1) - mu_x))),sigma_y_adj), pstream__));
+                    }
+                } else if (as_bool((primitive_value(logical_neq(get_base1(cens_x,i,"cens_x",1),0)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),0))))) {
+
+                    lp_accum__.add(normal_log(get_base1(y_lower,i,"y_lower",1),mu_y,sigma_y));
+                    if (as_bool(logical_eq(get_base1(cens_x,i,"cens_x",1),-(1)))) {
+
+                        lp_accum__.add(normal_cdf_log(get_base1(x_lower,i,"x_lower",1),(mu_x + (rho_xy_coef * (get_base1(y_lower,i,"y_lower",1) - mu_y))),sigma_x_adj));
+                    } else if (as_bool(logical_eq(get_base1(cens_x,i,"cens_x",1),1))) {
+
+                        lp_accum__.add(normal_ccdf_log(get_base1(x_lower,i,"x_lower",1),(mu_x + (rho_xy_coef * (get_base1(y_lower,i,"y_lower",1) - mu_y))),sigma_x_adj));
+                    } else if (as_bool(logical_eq(get_base1(cens_x,i,"cens_x",1),2))) {
+
+                        lp_accum__.add(log_sub_exp(normal_cdf_log(get_base1(x_upper,i,"x_upper",1),(mu_x + (rho_xy_coef * (get_base1(y_lower,i,"y_lower",1) - mu_y))),sigma_x_adj),normal_cdf_log(get_base1(x_lower,i,"x_lower",1),(mu_x + (rho_xy_coef * (get_base1(y_lower,i,"y_lower",1) - mu_y))),sigma_x_adj), pstream__));
+                    }
+                }
+                if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),-(1))) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),-(1)))))) {
+
+                    lp_accum__.add(log(binormal_cdf(((get_base1(x_lower,i,"x_lower",1) - mu_x) / sigma_x),((get_base1(y_lower,i,"y_lower",1) - mu_y) / sigma_y),rho, pstream__)));
                 } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),1)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),1))))) {
+
+                    lp_accum__.add(log(binormal_ccdf(((get_base1(x_lower,i,"x_lower",1) - mu_x) / sigma_x),((get_base1(y_lower,i,"y_lower",1) - mu_y) / sigma_y),rho, pstream__)));
+                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),-(1))) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),1))))) {
+
+                    lp_accum__.add(log(binormal_cdf(((get_base1(x_lower,i,"x_lower",1) - mu_x) / sigma_x),((-(get_base1(y_lower,i,"y_lower",1)) - mu_y) / sigma_y),-(rho), pstream__)));
+                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),1)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),-(1)))))) {
+
+                    lp_accum__.add(log(binormal_cdf(((-(get_base1(x_lower,i,"x_lower",1)) - mu_x) / sigma_x),((get_base1(y_lower,i,"y_lower",1) - mu_y) / sigma_y),-(rho), pstream__)));
+                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),-(1))) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),2))))) {
+
+                    lp_accum__.add(log((binormal_cdf(((get_base1(x_lower,i,"x_lower",1) - mu_x) / sigma_x),((get_base1(y_upper,i,"y_upper",1) - mu_y) / sigma_y),rho, pstream__) - binormal_cdf(((get_base1(x_lower,i,"x_lower",1) - mu_x) / sigma_x),((get_base1(y_lower,i,"y_lower",1) - mu_y) / sigma_y),rho, pstream__))));
+                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),1)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),2))))) {
+
+                    lp_accum__.add(log((binormal_cdf(((-(get_base1(x_lower,i,"x_lower",1)) - mu_x) / sigma_x),((get_base1(y_upper,i,"y_upper",1) - mu_y) / sigma_y),rho, pstream__) - binormal_cdf(((-(get_base1(x_lower,i,"x_lower",1)) - mu_x) / sigma_x),((get_base1(y_lower,i,"y_lower",1) - mu_y) / sigma_y),rho, pstream__))));
+                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),2)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),-(1)))))) {
+
+                    lp_accum__.add(log((binormal_cdf(((get_base1(x_upper,i,"x_upper",1) - mu_x) / sigma_x),((get_base1(y_lower,i,"y_lower",1) - mu_y) / sigma_y),rho, pstream__) - binormal_cdf(((get_base1(x_lower,i,"x_lower",1) - mu_x) / sigma_x),((get_base1(y_lower,i,"y_lower",1) - mu_y) / sigma_y),rho, pstream__))));
+                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),2)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),1))))) {
+
+                    lp_accum__.add(log((binormal_cdf(((get_base1(x_upper,i,"x_upper",1) - mu_x) / sigma_x),((-(get_base1(y_lower,i,"y_lower",1)) - mu_y) / sigma_y),rho, pstream__) - binormal_cdf(((get_base1(x_lower,i,"x_lower",1) - mu_x) / sigma_x),((-(get_base1(y_lower,i,"y_lower",1)) - mu_y) / sigma_y),rho, pstream__))));
+                } else if (as_bool((primitive_value(logical_eq(get_base1(cens_x,i,"cens_x",1),2)) && primitive_value(logical_eq(get_base1(cens_y,i,"cens_y",1),2))))) {
 
                     lp_accum__.add(log((((binormal_cdf(((get_base1(x_upper,i,"x_upper",1) - mu_x) / sigma_x),((get_base1(y_upper,i,"y_upper",1) - mu_y) / sigma_y),rho, pstream__) - binormal_cdf(((get_base1(x_lower,i,"x_lower",1) - mu_x) / sigma_x),((get_base1(y_upper,i,"y_upper",1) - mu_y) / sigma_y),rho, pstream__)) - binormal_cdf(((get_base1(x_upper,i,"x_upper",1) - mu_x) / sigma_x),((get_base1(y_lower,i,"y_lower",1) - mu_y) / sigma_y),rho, pstream__)) + binormal_cdf(((get_base1(x_lower,i,"x_lower",1) - mu_x) / sigma_x),((get_base1(y_lower,i,"y_lower",1) - mu_y) / sigma_y),rho, pstream__))));
                 }
@@ -1196,6 +1353,10 @@ public:
         names__.push_back("rho");
         names__.push_back("mu");
         names__.push_back("T");
+        names__.push_back("sigma_x_adj");
+        names__.push_back("sigma_y_adj");
+        names__.push_back("rho_xy_coef");
+        names__.push_back("rho_yx_coef");
     }
 
 
@@ -1218,6 +1379,14 @@ public:
         dims__.resize(0);
         dims__.push_back(2);
         dims__.push_back(2);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
+        dimss__.push_back(dims__);
+        dims__.resize(0);
         dimss__.push_back(dims__);
     }
 
@@ -1266,6 +1435,26 @@ public:
 
         stan::math::initialize(T, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(T,DUMMY_VAR__);
+        double sigma_x_adj(0.0);
+        (void) sigma_x_adj;  // dummy to suppress unused var warning
+
+        stan::math::initialize(sigma_x_adj, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(sigma_x_adj,DUMMY_VAR__);
+        double sigma_y_adj(0.0);
+        (void) sigma_y_adj;  // dummy to suppress unused var warning
+
+        stan::math::initialize(sigma_y_adj, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(sigma_y_adj,DUMMY_VAR__);
+        double rho_xy_coef(0.0);
+        (void) rho_xy_coef;  // dummy to suppress unused var warning
+
+        stan::math::initialize(rho_xy_coef, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(rho_xy_coef,DUMMY_VAR__);
+        double rho_yx_coef(0.0);
+        (void) rho_yx_coef;  // dummy to suppress unused var warning
+
+        stan::math::initialize(rho_yx_coef, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(rho_yx_coef,DUMMY_VAR__);
 
 
         try {
@@ -1275,6 +1464,10 @@ public:
             stan::math::assign(get_base1_lhs(T,2,2,"T",1), square(sigma_y));
             stan::math::assign(get_base1_lhs(mu,1,"mu",1), mu_x);
             stan::math::assign(get_base1_lhs(mu,2,"mu",1), mu_y);
+            stan::math::assign(sigma_x_adj, (sigma_x * sqrt((1 - square(rho)))));
+            stan::math::assign(sigma_y_adj, (sigma_y * sqrt((1 - square(rho)))));
+            stan::math::assign(rho_xy_coef, (rho * (sigma_x / sigma_y)));
+            stan::math::assign(rho_yx_coef, (rho * (sigma_y / sigma_x)));
         } catch (const std::exception& e) {
             stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
             // Next line prevents compiler griping about no return
@@ -1293,6 +1486,10 @@ public:
                 vars__.push_back(T(k_0__, k_1__));
             }
         }
+        vars__.push_back(sigma_x_adj);
+        vars__.push_back(sigma_y_adj);
+        vars__.push_back(rho_xy_coef);
+        vars__.push_back(rho_yx_coef);
 
         if (!include_gqs__) return;
         // declare and define generated quantities
@@ -1366,6 +1563,18 @@ public:
                 param_names__.push_back(param_name_stream__.str());
             }
         }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "sigma_x_adj";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "sigma_y_adj";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "rho_xy_coef";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "rho_yx_coef";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
     }
@@ -1402,6 +1611,18 @@ public:
             param_name_stream__ << "T" << '.' << k_0__;
             param_names__.push_back(param_name_stream__.str());
         }
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "sigma_x_adj";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "sigma_y_adj";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "rho_xy_coef";
+        param_names__.push_back(param_name_stream__.str());
+        param_name_stream__.str(std::string());
+        param_name_stream__ << "rho_yx_coef";
+        param_names__.push_back(param_name_stream__.str());
 
         if (!include_gqs__) return;
     }
@@ -1437,7 +1658,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_censored_correlations_unkown_l");
-    reader.add_event(73, 73, "end", "model_censored_correlations_unkown_l");
+    reader.add_event(77, 77, "end", "model_censored_correlations_unkown_l");
     return reader;
 }
 
@@ -1509,6 +1730,40 @@ struct binormal_cdf_functor__ {
                  const T1__& z2,
                  const T2__& rho, std::ostream* pstream__) const {
         return binormal_cdf(z1, z2, rho, pstream__);
+    }
+};
+
+template <typename T0__, typename T1__, typename T2__>
+typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
+binormal_ccdf(const T0__& z1,
+                  const T1__& z2,
+                  const T2__& rho, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__>::type fun_scalar_t__;
+    typedef fun_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        fun_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+    int current_statement_begin__ = -1;
+    try {
+
+        return stan::math::promote_scalar<fun_return_scalar_t__>(binormal_cdf(-(z1),-(z2),rho, pstream__));
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+
+
+struct binormal_ccdf_functor__ {
+    template <typename T0__, typename T1__, typename T2__>
+        typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
+    operator()(const T0__& z1,
+                  const T1__& z2,
+                  const T2__& rho, std::ostream* pstream__) const {
+        return binormal_ccdf(z1, z2, rho, pstream__);
     }
 };
 
@@ -2183,7 +2438,7 @@ static int current_statement_begin__;
 stan::io::program_reader prog_reader__() {
     stan::io::program_reader reader;
     reader.add_event(0, 0, "start", "model_censored_correlations_z");
-    reader.add_event(116, 116, "end", "model_censored_correlations_z");
+    reader.add_event(120, 120, "end", "model_censored_correlations_z");
     return reader;
 }
 
@@ -2255,6 +2510,40 @@ struct binormal_cdf_functor__ {
                  const T1__& z2,
                  const T2__& rho, std::ostream* pstream__) const {
         return binormal_cdf(z1, z2, rho, pstream__);
+    }
+};
+
+template <typename T0__, typename T1__, typename T2__>
+typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
+binormal_ccdf(const T0__& z1,
+                  const T1__& z2,
+                  const T2__& rho, std::ostream* pstream__) {
+    typedef typename boost::math::tools::promote_args<T0__, T1__, T2__>::type fun_scalar_t__;
+    typedef fun_scalar_t__ fun_return_scalar_t__;
+    const static bool propto__ = true;
+    (void) propto__;
+        fun_scalar_t__ DUMMY_VAR__(std::numeric_limits<double>::quiet_NaN());
+        (void) DUMMY_VAR__;  // suppress unused var warning
+
+    int current_statement_begin__ = -1;
+    try {
+
+        return stan::math::promote_scalar<fun_return_scalar_t__>(binormal_cdf(-(z1),-(z2),rho, pstream__));
+    } catch (const std::exception& e) {
+        stan::lang::rethrow_located(e, current_statement_begin__, prog_reader__());
+        // Next line prevents compiler griping about no return
+        throw std::runtime_error("*** IF YOU SEE THIS, PLEASE REPORT A BUG ***");
+    }
+}
+
+
+struct binormal_ccdf_functor__ {
+    template <typename T0__, typename T1__, typename T2__>
+        typename boost::math::tools::promote_args<T0__, T1__, T2__>::type
+    operator()(const T0__& z1,
+                  const T1__& z2,
+                  const T2__& rho, std::ostream* pstream__) const {
+        return binormal_ccdf(z1, z2, rho, pstream__);
     }
 };
 

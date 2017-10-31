@@ -2,10 +2,74 @@
 % Please edit documentation in R/censcor.R
 \name{censcor}
 \alias{censcor}
-\title{Estimate correlation between two censored variables}
+\title{Estimate correlation between two censored variables.}
 \usage{
 censcor(formula, df, ...)
 }
+\arguments{
+\item{formula}{formula describing the correlation to estimate}
+
+\item{df}{data frame containing the data described by the formula}
+}
+\value{
+stanfit object
+}
 \description{
-Estimate correlation between two censored variables
+Estimate correlation between two censored variables.
+}
+\details{
+The most basic formula describes two variables that aren't censored:
+
+x ~ y
+
+where x and y are columns of the input dataframe.
+
+Censoring is described through additional columns
+
+x | cens(x_cens) ~ y | cens(y_cens)
+
+x_cens and y_cens can contain -1, 0, 1, or 2. Alternatively, you can use the strings "left", "none", "right", and "interval".
+"left" (-1) indicates left censoring, "none" (0) no censoring, "right" (1) right censoring, and "interval" (2) interval censoring.
+Censored values of x and y should be replaced with the censoring limit.
+
+In the case of interval censoring, there are two limits: the upper and lower censoring limits. In this case, x should contain the lower limit,
+and the upper limit should be in a separate column:
+
+x | cens(x_cens, x_upper_limit) ~ y | cens(y_cens, y_upper_limit)
+
+Different censoring types can be combined in the same data frame. As before, x and y should contain the censoring limits for either left or right censoring,
+and for interval censoring use a separate column to input the upper bounds. If you mix interval censoring with left or right censoring,
+you can use any value in the upper limit column for non-interval censored values, because the algorithm only uses the upper limit column
+for interval censored values.
+
+`censcor` returns a `stanfit` object. The fit includes:
+\item{mu_x}{the estimated mean of the x variable}
+\item{sigma_x}{the estimated standard deviation of the x variable}
+\item{mu_y}{the estimated mean of the y variable}
+\item{sigma_y}{the estimated standard deviation of the y variable}
+\item{rho}{the estimated correlation between x and y}
+}
+\examples{
+\dontrun{
+  # neither x or y censored
+  df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0)
+  censcor(x ~ y, df)
+  
+  # x and y are both left censored
+  df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0.25, direction = -1)
+  censcor(x | cens(x_cens) ~ y | cens(y_cens), df)
+  
+  # x and y are right and interval censored
+  df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0.25, direction = c(1, 2))
+  censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df)
+  
+  # You can examine the results using functions from rstan:
+  library(rstan)
+  fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df)
+  summary(fit)
+}
+
+}
+\seealso{
+generate_censored_data
 }

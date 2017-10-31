@@ -11,3 +11,7 @@ real binormal_cdf(real z1, real z2, real rho) {
   }
   return 0.25 + asin(rho) / (2 * pi());
 }
+
+real binormal_ccdf(real z1, real z2, real rho) {
+  return binormal_cdf(-z1, -z2, rho);
+}
