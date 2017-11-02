@@ -3,6 +3,7 @@
 #' @param formula formula describing the correlation to estimate
 #' @param df data frame containing the data described by the formula
 #' @param adj formula adjustment column used for data
+#' @param chains number of MCMC chains to run
 #' @param ... arguments passed to rstan::sampling
 #' 
 #' @details 
@@ -62,7 +63,7 @@
 #' }
 #' 
 #' @export
-censcor <- function(formula, df, adj = NULL, ...) {
+censcor <- function(formula, df, adj = NULL, chains = 4, ...) {
   d <- parse_formula(formula, df)
   
   if(is.null(d$cens_x)) d$cens_x = rep(0, length(d$x))
@@ -81,10 +82,19 @@ censcor <- function(formula, df, adj = NULL, ...) {
     cens_y  = d$cens_y
   ) 
   
+  init = list(
+    rho = 0,
+    mu_x = mean(d$x),
+    mu_y = mean(d$y)
+  )
+  
+  inits = rep(list(init), chains)
+  
   sampling(stanmodels$censored_correlations_interval,
            data = data,
            control = list(adapt_delta = 0.95, max_treedepth = 15),
            pars = c("sigma_x", "sigma_y", "mu_x", "mu_y", "rho"),
+           init = inits,
            ...)
   #else {
   #  data = list(

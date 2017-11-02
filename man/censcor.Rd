@@ -4,7 +4,7 @@
 \alias{censcor}
 \title{Estimate correlation between two censored variables.}
 \usage{
-censcor(formula, df, adj = NULL, ...)
+censcor(formula, df, adj = NULL, chains = 4, ...)
 }
 \arguments{
 \item{formula}{formula describing the correlation to estimate}
@@ -12,6 +12,8 @@ censcor(formula, df, adj = NULL, ...)
 \item{df}{data frame containing the data described by the formula}
 
 \item{adj}{formula adjustment column used for data}
+
+\item{chains}{number of MCMC chains to run}
 
 \item{...}{arguments passed to rstan::sampling}
 }
