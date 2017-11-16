@@ -76,6 +76,9 @@ for interval censored values.
 }
 
 }
+\references{
+Newton, Elizabeth, and Ruthann Rudel. "Estimating correlation with multiply censored data arising from the adjustment of singly censored data." Environmental science & technology 41.1 (2007): 221-228.
+}
 \seealso{
 generate_censored_data
 }

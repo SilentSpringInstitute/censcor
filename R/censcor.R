@@ -42,6 +42,8 @@
 #' 
 #' @seealso generate_censored_data
 #' 
+#' @references Newton, Elizabeth, and Ruthann Rudel. "Estimating correlation with multiply censored data arising from the adjustment of singly censored data." Environmental science & technology 41.1 (2007): 221-228.
+#' 
 #' @examples 
 #' \dontrun{
 #'   # neither x or y censored
@@ -62,6 +64,7 @@
 #'   summary(fit)
 #' }
 #' 
+#' @importFrom stringr str_replace
 #' @export
 censcor <- function(formula, df, adj = NULL, chains = 4, ...) {
   d <- parse_formula(formula, df)
@@ -83,29 +86,44 @@ censcor <- function(formula, df, adj = NULL, chains = 4, ...) {
   ) 
   
   init = list(
-    rho = 0,
     mu_x = mean(d$x),
     mu_y = mean(d$y)
   )
   
-  inits = rep(list(init), chains)
-  
-  sampling(stanmodels$censored_correlations_interval,
-           data = data,
-           control = list(adapt_delta = 0.95, max_treedepth = 15),
-           pars = c("sigma_x", "sigma_y", "mu_x", "mu_y", "rho"),
-           init = inits,
-           ...)
-  #else {
-  #  data = list(
-  #    N = length(x),
-  #    x = x,
-  #    y = y,
-  #    z = z,
-  #    cens_x = cens_x,
-  #    cens_y = cens_y
-  #  )
-  #  
-  #  sampling(stanmodels$censored_correlations_z, data = data, control = list(adapt_delta = 0.95, max_treedepth = 10))
-  #}
+  if(is.null(adj)) {
+    init$rho <= 0
+    
+    inits <- rep(list(init), chains)
+    
+    sampling(stanmodels$censored_correlations_interval,
+             data = data,
+             control = list(adapt_delta = 0.95, max_treedepth = 15),
+             chains = chains,
+             pars = c("sigma_x", "sigma_y", "mu_x", "mu_y", "rho"),
+             init = inits,
+             ...)
+  }
+  else {
+    if(class(adj) == "formula") {
+      data$z <- eval(parse(text = str_replace(adj, "~", "")), envir = df)
+    }
+    else {
+      data$z <- eval(parse(text = adj), envir = df)
+    }
+    
+    init$mu_z <- mean(data$z);
+    init$rho_xy <- 0
+    init$rho_xz <- 0
+    init$rho_yz <- 0
+    
+    inits <- rep(list(init), chains)
+    
+    sampling(stanmodels$censored_correlations_z,
+             data = data,
+             control = list(adapt_delta = 0.95, max_treedepth = 15),
+             chains = chains,
+             pars = c("sigma_x", "sigma_y", "sigma_z", "mu_x", "mu_y", "mu_z", "rho_xy", "rho_xz", "rho_yz", "cor_xy"),
+             init = inits,
+             ...)
+  }
 }

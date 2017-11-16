@@ -33,7 +33,7 @@ generate_censored_data <- function(N, rho, L_prob, direction = c(-1), adj = FALS
   
   if(adj == TRUE) {
     z <- rnorm(N, 0, adj_sigma)
-    X = X - z
+    X = X
   }
   
   X_cens <- X
