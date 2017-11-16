@@ -174,132 +174,27 @@ fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/censcor
 df &lt;-<span class="st"> </span><span class="kw"><a href="../reference/generate_censored_data.html">generate_censored_data</a></span>(<span class="dt">N =</span> <span class="dv">100</span>, <span class="dt">rho =</span> <span class="fl">0.5</span>, <span class="dt">L_prob =</span> <span class="fl">0.5</span>, <span class="dt">direction =</span> <span class="op">-</span><span class="dv">1</span>)
 
 fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/censcor.html">censcor</a></span>(x <span class="op">|</span><span class="st"> </span><span class="kw">cens</span>(x_cens, x_upper) <span class="op">~</span><span class="st"> </span>y <span class="op">|</span><span class="st"> </span><span class="kw">cens</span>(y_cens, y_upper), df, <span class="dt">iter =</span> <span class="dv">600</span>)</code></pre></div>
-<pre><code>## 
-## SAMPLING FOR MODEL 'censored_correlations_interval' NOW (CHAIN 1).
-## 
-## Gradient evaluation took 0.001 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:   1 / 600 [  0%]  (Warmup)
-## Iteration:  60 / 600 [ 10%]  (Warmup)
-## Iteration: 120 / 600 [ 20%]  (Warmup)
-## Iteration: 180 / 600 [ 30%]  (Warmup)
-## Iteration: 240 / 600 [ 40%]  (Warmup)
-## Iteration: 300 / 600 [ 50%]  (Warmup)
-## Iteration: 301 / 600 [ 50%]  (Sampling)
-## Iteration: 360 / 600 [ 60%]  (Sampling)
-## Iteration: 420 / 600 [ 70%]  (Sampling)
-## Iteration: 480 / 600 [ 80%]  (Sampling)
-## Iteration: 540 / 600 [ 90%]  (Sampling)
-## Iteration: 600 / 600 [100%]  (Sampling)
-## 
-##  Elapsed Time: 0.452 seconds (Warm-up)
-##                0.337 seconds (Sampling)
-##                0.789 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'censored_correlations_interval' NOW (CHAIN 2).
-## 
-## Gradient evaluation took 0 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:   1 / 600 [  0%]  (Warmup)
-## Iteration:  60 / 600 [ 10%]  (Warmup)
-## Iteration: 120 / 600 [ 20%]  (Warmup)
-## Iteration: 180 / 600 [ 30%]  (Warmup)
-## Iteration: 240 / 600 [ 40%]  (Warmup)
-## Iteration: 300 / 600 [ 50%]  (Warmup)
-## Iteration: 301 / 600 [ 50%]  (Sampling)
-## Iteration: 360 / 600 [ 60%]  (Sampling)
-## Iteration: 420 / 600 [ 70%]  (Sampling)
-## Iteration: 480 / 600 [ 80%]  (Sampling)
-## Iteration: 540 / 600 [ 90%]  (Sampling)
-## Iteration: 600 / 600 [100%]  (Sampling)
-## 
-##  Elapsed Time: 0.377 seconds (Warm-up)
-##                0.338 seconds (Sampling)
-##                0.715 seconds (Total)
-## 
-## 
-## SAMPLING FOR MODEL 'censored_correlations_interval' NOW (CHAIN 3).
-## 
-## Gradient evaluation took 0 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 0 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:   1 / 600 [  0%]  (Warmup)
-## Iteration:  60 / 600 [ 10%]  (Warmup)
-## Iteration: 120 / 600 [ 20%]  (Warmup)
-## Iteration: 180 / 600 [ 30%]  (Warmup)
-## Iteration: 240 / 600 [ 40%]  (Warmup)
-## Iteration: 300 / 600 [ 50%]  (Warmup)
-## Iteration: 301 / 600 [ 50%]  (Sampling)
-## Iteration: 360 / 600 [ 60%]  (Sampling)
-## Iteration: 420 / 600 [ 70%]  (Sampling)
-## Iteration: 480 / 600 [ 80%]  (Sampling)
-## Iteration: 540 / 600 [ 90%]  (Sampling)
-## Iteration: 600 / 600 [100%]  (Sampling)
-## 
-##  Elapsed Time: 0.424 seconds (Warm-up)
-##                0.35 seconds (Sampling)
-##                0.774 seconds (Total)
-## 
-## [1] "The following numerical problems occurred the indicated number of times on chain 3"
-##                                                                                                      count
-## Exception thrown at line 81: multi_normal_lpdf: LDLT_Factor of covariance parameter is not positive      2
-## [1] "When a numerical problem occurs, the Hamiltonian proposal gets rejected."
-## [1] "See http://mc-stan.org/misc/warnings.html#exception-hamiltonian-proposal-rejected"
-## [1] "If the number in the 'count' column is small,  there is no need to ask about this message on stan-users."
-## 
-## SAMPLING FOR MODEL 'censored_correlations_interval' NOW (CHAIN 4).
-## 
-## Gradient evaluation took 0.001 seconds
-## 1000 transitions using 10 leapfrog steps per transition would take 10 seconds.
-## Adjust your expectations accordingly!
-## 
-## 
-## Iteration:   1 / 600 [  0%]  (Warmup)
-## Iteration:  60 / 600 [ 10%]  (Warmup)
-## Iteration: 120 / 600 [ 20%]  (Warmup)
-## Iteration: 180 / 600 [ 30%]  (Warmup)
-## Iteration: 240 / 600 [ 40%]  (Warmup)
-## Iteration: 300 / 600 [ 50%]  (Warmup)
-## Iteration: 301 / 600 [ 50%]  (Sampling)
-## Iteration: 360 / 600 [ 60%]  (Sampling)
-## Iteration: 420 / 600 [ 70%]  (Sampling)
-## Iteration: 480 / 600 [ 80%]  (Sampling)
-## Iteration: 540 / 600 [ 90%]  (Sampling)
-## Iteration: 600 / 600 [100%]  (Sampling)
-## 
-##  Elapsed Time: 0.433 seconds (Warm-up)
-##                0.365 seconds (Sampling)
-##                0.798 seconds (Total)</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">fit</code></pre></div>
 <pre><code>## Inference for Stan model: censored_correlations_interval.
 ## 4 chains, each with iter=600; warmup=300; thin=1; 
 ## post-warmup draws per chain=300, total post-warmup draws=1200.
 ## 
 ##            mean se_mean   sd    2.5%     25%     50%     75%   97.5% n_eff
-## sigma_x    1.28    0.01 0.15    1.03    1.18    1.27    1.38    1.60   866
-## sigma_y    1.06    0.00 0.11    0.86    0.98    1.05    1.12    1.29  1094
-## mu_x      -0.12    0.01 0.16   -0.47   -0.22   -0.11   -0.01    0.17   862
-## mu_y       0.12    0.00 0.12   -0.13    0.04    0.12    0.20    0.34  1029
-## rho        0.41    0.00 0.10    0.20    0.35    0.42    0.48    0.60   964
-## lp__    -218.28    0.07 1.52 -221.96 -219.13 -217.96 -217.16 -216.22   480
+## sigma_x    0.96    0.00 0.11    0.77    0.88    0.94    1.02    1.23   837
+## sigma_y    0.83    0.00 0.10    0.67    0.76    0.82    0.89    1.03   851
+## mu_x       0.09    0.00 0.12   -0.15    0.01    0.09    0.17    0.30   940
+## mu_y       0.16    0.00 0.10   -0.07    0.09    0.17    0.23    0.34   534
+## rho        0.41    0.00 0.11    0.19    0.34    0.42    0.48    0.59   789
+## lp__    -191.71    0.08 1.68 -195.86 -192.66 -191.36 -190.48 -189.49   489
 ##         Rhat
-## sigma_x    1
-## sigma_y    1
-## mu_x       1
-## mu_y       1
-## rho        1
-## lp__       1
+## sigma_x 1.00
+## sigma_y 1.00
+## mu_x    1.00
+## mu_y    1.01
+## rho     1.00
+## lp__    1.01
 ## 
-## Samples were drawn using NUTS(diag_e) at Thu Nov 16 12:43:21 2017.
+## Samples were drawn using NUTS(diag_e) at Thu Nov 16 15:41:11 2017.
 ## For each parameter, n_eff is a crude measure of effective sample size,
 ## and Rhat is the potential scale reduction factor on split chains (at 
 ## convergence, Rhat=1).</code></pre>
@@ -307,7 +202,7 @@ fit &lt;-<span class="st"> </span><span class="kw"><a href="../reference/censcor
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bayesplot)</code></pre></div>
 <pre><code>## This is bayesplot version 1.2.0</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="http://www.rdocumentation.org/packages/bayesplot/topics/MCMC-distributions">mcmc_dens</a></span>(<span class="kw">as.array</span>(fit), <span class="dt">pars =</span> <span class="kw">c</span>(<span class="st">"rho"</span>))</code></pre></div>
-<p><img src="introduction_files/figure-html/unnamed-chunk-9-1.png" width="672"></p>
+<p><img src="introduction_files/figure-html/unnamed-chunk-10-1.png" width="672"></p>
 </div>
 </div>
 </div>

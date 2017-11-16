@@ -12,6 +12,7 @@ vignette: >
 
 ```{r, include = FALSE}
 library(censcor)
+set.seed(1)
 ```
 
 The `censcor` package provides routines for performing Bayesian estimation of the correlation between two censored variables. The inference is conducted with `Stan`, which uses the `No-U-Turn Hamiltonian Monte-Carlo` algorithm for drawing from the posterior distribution.
@@ -117,15 +118,17 @@ fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df)
 - `sigma_y` is the estimated standard deviation of the `y` variable
 - `rho` is the estimated correlation between `x` and `y`
 
-```{r, message=FALSE, }
+```{r, message=FALSE, results='hide'}
 library(rstan)
 
 df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0.5, direction = -1)
 
 fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df, iter = 600)
 
-fit
+```
 
+```{r}
+fit
 ```
 
 You can visualize the estimates using the `bayesplot` package:

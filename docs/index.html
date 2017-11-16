@@ -73,11 +73,31 @@
 <div id="censcor" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#censcor" class="anchor"></a>censcor</h1></div>
-<p><code>censcor</code> is an R package for estimating correlations between censored variables.</p>
+<p><code>censcor</code> is an R package for estimating correlations between censored variables. <code>censcor</code> works by fitting a multivariate normal distribution to the data using <a href="http://mc-stan.org">Stan</a>.</p>
 <div id="install" class="section level2">
 <h2 class="hasAnchor">
 <a href="#install" class="anchor"></a>Install</h2>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"silentspringinstitute/censcor"</span>, <span class="dt">args =</span> <span class="st">"--preclean"</span>)</code></pre></div>
+</div>
+<div id="documentation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#documentation" class="anchor"></a>Documentation</h2>
+<p>Documentation and vignettes for the package are available on the <a href="https://silentspringinstitute.github.io/censcor"><code>censcor</code> website.</a></p>
+</div>
+<div id="examples" class="section level2">
+<h2 class="hasAnchor">
+<a href="#examples" class="anchor"></a>Examples</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">
+<span class="co"># Generate 100 x and y values with a 0.5 correlation coefficient and no censoring</span>
+df &lt;-<span class="st"> </span><span class="kw"><a href="reference/generate_censored_data.html">generate_censored_data</a></span>(<span class="dt">N =</span> <span class="dv">100</span>, <span class="dt">rho =</span> <span class="fl">0.5</span>, <span class="dt">L_prob =</span> <span class="dv">0</span>)
+
+fit &lt;-<span class="st"> </span><span class="kw"><a href="reference/censcor.html">censcor</a></span>(x <span class="op">~</span><span class="st"> </span>y, df)
+
+<span class="co"># Fit dataset with left censoring in both x and y</span>
+df &lt;-<span class="st"> </span><span class="kw"><a href="reference/generate_censored_data.html">generate_censored_data</a></span>(<span class="dt">N =</span> <span class="dv">100</span>, <span class="dt">rho =</span> <span class="fl">0.5</span>, <span class="dt">L_prob =</span> <span class="fl">0.5</span>, <span class="dt">direction =</span> <span class="op">-</span><span class="dv">1</span>)
+
+fit &lt;-<span class="st"> </span><span class="kw"><a href="reference/censcor.html">censcor</a></span>(x <span class="op">|</span><span class="st"> </span><span class="kw">cens</span>(x_cens) <span class="op">~</span><span class="st"> </span>y <span class="op">|</span><span class="st"> </span><span class="kw">cens</span>(y_cens), df)</code></pre></div>
+<p>You can find more examples in the <a href="https://silentspringinstitute.github.io/censcor/articles/introduction.html">Introduction to censcor</a> vignette.</p>
 </div>
 </div>
 
