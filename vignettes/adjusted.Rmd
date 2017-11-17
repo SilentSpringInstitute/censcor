@@ -15,128 +15,43 @@ library(censcor)
 set.seed(1)
 ```
 
-[Newton and Rudel, 2007.](https://www.ncbi.nlm.nih.gov/pubmed/17265951)
+Often in environmental health datasets censored variables are adjusted by another non-censored variable. For example, measurements of two chemicals in a sample ($x$ and $y$) might be normalized by dividing by the volume of each sample ($z$). If $x$ and $y$ were singly censored, dividing them by $z$ leads to variables $x_{adj}$ and $y_{adj}$ that are censored at multiple points.
 
-The `censcor` package provides routines for performing Bayesian estimation of the correlation between two censored variables. The inference is conducted with `Stan`, which uses the `No-U-Turn Hamiltonian Monte-Carlo` algorithm for drawing from the posterior distribution.
+[Newton and Rudel (2007)](https://www.ncbi.nlm.nih.gov/pubmed/17265951) describe a method for estimating the Pearson correlation between two censored variables that are adjusted by a third, non-censored variable. The approach incorporates information about the correlations between $x$, $y$, and $z$, and is based on the identity
 
-## Usage
+$$
+\mathrm{cor}(x-z,y-z) = \frac{\sigma_{xy} - \sigma_{xz} - \sigma_{yz} + \sigma_z^2}{\big\{(\sigma_x^2 + \sigma_z^2 -2 \sigma_{xz})(\sigma_y^2 + \sigma_z^2 -2\sigma_{yz})\big\}^{0.5}}
+$$
 
-The main function is `censcor`, which computes correlations between two variables. `censcor` takes as arguments a formula describing the correlation to estimate and a data frame. The formula syntax is modeled after the censoring syntax in `brms`.
+You can use this method in `censcor` by using the `adj` argument to input a formula describing the adjustment column. Note that we still the _unadjusted_ values for $x$ and $y$.
 
-The formula syntax is:
+```{r, results = 'hide'}
+d1 <- generate_censored_data(N = 100,        # Number of data points
+                             rho = 0.5,      # true correlation between x and y
+                             L_prob = 0.2,   # probability of censoring
+                             direction = -1, # direction of censoring (left)
+                             adj = TRUE,     # generate an adjustment variable
+                             adj_sigma = 1)  # standard deviation of the adjustment variable
 
-```{r, eval = FALSE}
-censcor(x | cens(x_cens, x_upper_bound) ~ y | cens(y_cens, y_upper_bound), df)
-```
-
-Let's look at some examples of how to specify different types of censoring. The `generate_censored_data` function generates a data frame of random values for testing the package.
-
-### No censoring
-
-The most basic estimation you can perform is between two variables that are not censored. In this example, the correlation between the `x` and `y` columns of `df` is estimated.
-
-```{r, eval=FALSE}
-# Generate 100 x and y values with a 0.5 correlation coefficient and no censoring
-df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0)
-
-fit <- censcor(x ~ y, df)
-```
-
-### Left censoring
-Censoring is described with the `cens` formula function. A separate column is needed for each censored variable to indicate which values are censored, with -1 indicating left censored, 1 indicating right censored, and 2 indicating interval censored. Censored values in `x` and `y` should be replaced with the censoring limit.
-
-In this example, both `x` and `y` are left-censored. `x_cens` and `y_cens` indicate which rows are censored by having the value -1.
-
-```{r, eval=FALSE}
-# df example:
-# x  x_cens   y   y_cens
-# 2  -1       1   0        # x is left-censored below 2, y is not censored
-# 0   0       4  -1        # x is not censored, y is left-censored below 2
-# ...
-
-df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0.5, direction = -1)
-
-fit <- censcor(x | cens(x_cens) ~ y | cens(y_cens), df)
-```
-
-### Right censoring
-
-The syntax for right-censoring is the same as before. `x_cens` and `y_cens` contain 1s to indicate right-censored values.
-
-```{r, eval=FALSE}
-# df example:
-# x  x_cens  y   y_cens
-# 5  1       1   0        # x is right-censored above 5, y is not censored
-# 0  0       2   1        # x is not censored, y is right-censored above 2
-# ...
-
-df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0.5, direction = 1)
-
-fit <- censcor(x | cens(x_cens) ~ y | cens(y_cens), df)
-```
-
-### Interval censoring
-
-Interval censored values have lower and upper bounds. In this case, `x` and `y` contain the lower interval limit, and separate columns are used to hold the uper interval limit and are specified as the second argument to `cens`.
-
-
-```{r, eval=FALSE}
-# df example:
-# x   x_upper  x_cens   y   y_upper   y_cens
-# 1   5        2        1   1         0        # x is interval censored between 1 and 5; y is not censored
-# ...
-
-df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0.5, direction = 2)
-
-fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df)
-```
-
-
-### Mixed censoring
-
-Left, right, and interval censoring can be combined within a data frame.
-
-```{r, eval = FALSE}
-# df example:
-#  x   x_upper  x_cens   y   y_upper   y_cens
-#  1   5        2        1   1         0        # x is interval censored between 1 and 5; y is not censored
-#  3   3       -1        5   1         1        # x left censored below 3, y is right censored above 5
-# -1  -1        1        1   5         2        # x is right censored above -1, y is interval censored between 1 and 5
-# ...
-
-df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0.5, direction = c(-1, 1, 2))
-
-fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df)
+fit <- censcor(x | cens(x_cens) ~ y | cens(y_cens), d1, adj = ~adj, iter = 600)
 
 ```
 
-### Output
+The estimated correlation between $x$ and $y$ as adjusted by $z$ (that is, the correlation between $x-z$ and $y-z$) is reported as `rho_adj`. The theoretical value is
 
-`censcor` returns an `rstan::stanfit` object for several fitted parameters.
+$$
+\rho_{adj} = \frac{\rho_{xy} + \sigma_z}{1 + \sigma_z}
+$$
 
-- `mu_x` is the estimated mean of the `x` variable
-- `sigma_x` is the estimated standard deviation of the `x` variable
-- `mu_y` is the estimated mean of the `y` variable
-- `sigma_y` is the estimated standard deviation of the `y` variable
-- `rho` is the estimated correlation between `x` and `y`
-
-```{r, message=FALSE, results='hide'}
-library(rstan)
-
-df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0.5, direction = -1)
-
-fit <- censcor(x | cens(x_cens, x_upper) ~ y | cens(y_cens, y_upper), df, iter = 600)
-
-```
+In this example, we set $\rho_{xy}=0.5$ and $\sigma_z=1$, so we expect $\rho_{adj}$ to be $0.75$.
 
 ```{r}
 fit
 ```
 
-You can visualize the estimates using the `bayesplot` package:
-
 ```{r}
 library(bayesplot)
 
-mcmc_dens(as.array(fit), pars = c("rho"))
+mcmc_areas(as.matrix(fit), pars = "rho_adj")
+
 ```
