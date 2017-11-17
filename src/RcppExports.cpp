@@ -11,12 +11,14 @@ RcppExport SEXP _rcpp_module_boot_stan_fit4censored_correlations_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4censored_correlations_interval_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4censored_correlations_unkown_l_mod();
 RcppExport SEXP _rcpp_module_boot_stan_fit4censored_correlations_z_mod();
+RcppExport SEXP _rcpp_module_boot_stan_fit4kendalls_tau_mod();
 
 static const R_CallMethodDef CallEntries[] = {
     {"_rcpp_module_boot_stan_fit4censored_correlations_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4censored_correlations_mod, 0},
     {"_rcpp_module_boot_stan_fit4censored_correlations_interval_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4censored_correlations_interval_mod, 0},
     {"_rcpp_module_boot_stan_fit4censored_correlations_unkown_l_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4censored_correlations_unkown_l_mod, 0},
     {"_rcpp_module_boot_stan_fit4censored_correlations_z_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4censored_correlations_z_mod, 0},
+    {"_rcpp_module_boot_stan_fit4kendalls_tau_mod", (DL_FUNC) &_rcpp_module_boot_stan_fit4kendalls_tau_mod, 0},
     {NULL, NULL, 0}
 };
 

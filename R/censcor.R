@@ -2,6 +2,7 @@
 #' 
 #' @param formula formula describing the correlation to estimate
 #' @param df data frame containing the data described by the formula
+#' @param method a character string indicating which correlation coefficient to compute. One of "pearson" (default) or "kendall".
 #' @param adj formula adjustment column used for data
 #' @param chains number of MCMC chains to run
 #' @param ... arguments passed to rstan::sampling
@@ -42,7 +43,10 @@
 #' 
 #' @seealso generate_censored_data
 #' 
-#' @references Newton, Elizabeth, and Ruthann Rudel. "Estimating correlation with multiply censored data arising from the adjustment of singly censored data." Environmental science & technology 41.1 (2007): 221-228.
+#' @references
+#' Newton, Elizabeth, and Ruthann Rudel. "Estimating correlation with multiply censored data arising from the adjustment of singly censored data." Environmental science & technology 41.1 (2007): 221-228.
+#' 
+#' van Doorn, Johnny, et al. "Bayesian Estimation of Kendall's tau Using a Latent Normal Approach." arXiv preprint arXiv:1703.01805 (2017).
 #' 
 #' @examples 
 #' \dontrun{
@@ -66,7 +70,7 @@
 #' 
 #' @importFrom stringr str_replace
 #' @export
-censcor <- function(formula, df, adj = NULL, chains = 4, ...) {
+censcor <- function(formula, df, method = "pearson", adj = NULL, chains = 4, ...) {
   d <- parse_formula(formula, df)
   
   if(is.null(d$cens_x)) d$cens_x = rep(0, length(d$x))
@@ -90,40 +94,53 @@ censcor <- function(formula, df, adj = NULL, chains = 4, ...) {
     mu_y = mean(d$y)
   )
   
-  if(is.null(adj)) {
-    init$rho <= 0
-    
-    inits <- rep(list(init), chains)
-    
-    sampling(stanmodels$censored_correlations_interval,
-             data = data,
-             control = list(adapt_delta = 0.95, max_treedepth = 15),
-             chains = chains,
-             pars = c("sigma_x", "sigma_y", "mu_x", "mu_y", "rho"),
-             init = inits,
-             ...)
-  }
-  else {
-    if(class(adj) == "formula") {
-      data$z <- eval(parse(text = str_replace(adj, "~", "")), envir = df)
+  if(method == "pearson") {
+    if(is.null(adj)) {
+      init$rho <= 0
+      
+      inits <- rep(list(init), chains)
+      
+      sampling(stanmodels$censored_correlations_interval,
+               data = data,
+               control = list(adapt_delta = 0.95, max_treedepth = 15),
+               chains = chains,
+               pars = c("sigma_x", "sigma_y", "mu_x", "mu_y", "rho"),
+               init = inits,
+               ...)
     }
     else {
-      data$z <- eval(parse(text = adj), envir = df)
+      if(class(adj) == "formula") {
+        data$z <- eval(parse(text = str_replace(adj, "~", "")), envir = df)
+      }
+      else {
+        data$z <- eval(parse(text = adj), envir = df)
+      }
+      
+      init$mu_z <- mean(data$z);
+      init$rho_xy <- 0
+      init$rho_xz <- 0
+      init$rho_yz <- 0
+      
+      inits <- rep(list(init), chains)
+      
+      sampling(stanmodels$censored_correlations_z,
+               data = data,
+               control = list(adapt_delta = 0.95, max_treedepth = 15),
+               chains = chains,
+               pars = c("sigma_x", "sigma_y", "sigma_z", "mu_x", "mu_y", "mu_z", "rho_xy", "rho_xz", "rho_yz", "cor_xy"),
+               init = inits,
+               ...)
     }
+  } 
+  else if(method == "kendall") {
+    data$x_rank <- rank(d$x)
+    data$y_rank <- rank(d$y)
     
-    init$mu_z <- mean(data$z);
-    init$rho_xy <- 0
-    init$rho_xz <- 0
-    init$rho_yz <- 0
-    
-    inits <- rep(list(init), chains)
-    
-    sampling(stanmodels$censored_correlations_z,
+    sampling(stanmodels$kendalls_tau,
              data = data,
-             control = list(adapt_delta = 0.95, max_treedepth = 15),
+             control = list(adapt_delta = 0.99),
              chains = chains,
-             pars = c("sigma_x", "sigma_y", "sigma_z", "mu_x", "mu_y", "mu_z", "rho_xy", "rho_xz", "rho_yz", "cor_xy"),
-             init = inits,
+             pars = c("rho", "tau"),
              ...)
   }
 }

@@ -4,12 +4,14 @@
 \alias{censcor}
 \title{Estimate correlation between two censored variables.}
 \usage{
-censcor(formula, df, adj = NULL, chains = 4, ...)
+censcor(formula, df, method = "pearson", adj = NULL, chains = 4, ...)
 }
 \arguments{
 \item{formula}{formula describing the correlation to estimate}
 
 \item{df}{data frame containing the data described by the formula}
+
+\item{method}{a character string indicating which correlation coefficient to compute. One of "pearson" (default) or "kendall".}
 
 \item{adj}{formula adjustment column used for data}
 
@@ -78,6 +80,8 @@ for interval censored values.
 }
 \references{
 Newton, Elizabeth, and Ruthann Rudel. "Estimating correlation with multiply censored data arising from the adjustment of singly censored data." Environmental science & technology 41.1 (2007): 221-228.
+
+van Doorn, Johnny, et al. "Bayesian Estimation of Kendall's tau Using a Latent Normal Approach." arXiv preprint arXiv:1703.01805 (2017).
 }
 \seealso{
 generate_censored_data

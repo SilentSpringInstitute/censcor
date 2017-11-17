@@ -16,7 +16,6 @@ Documentation and vignettes for the package are available on the [`censcor` webs
 ## Examples
 
 ```r
-
 # Generate 100 x and y values with a 0.5 correlation coefficient and no censoring
 df <- generate_censored_data(N = 100, rho = 0.5, L_prob = 0)
 
