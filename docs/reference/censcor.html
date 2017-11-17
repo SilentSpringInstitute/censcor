@@ -68,6 +68,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/adjusted.html">Correlations between multiply censored variables arising from adjustment</a>
+    </li>
+    <li>
       <a href="../articles/introduction.html">Introduction to censcor</a>
     </li>
   </ul>
@@ -99,7 +102,7 @@
     <p>Estimate correlation between two censored variables.</p>
     
 
-    <pre class="usage"><span class='fu'>censcor</span>(<span class='no'>formula</span>, <span class='no'>df</span>, <span class='kw'>adj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>chains</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>censcor</span>(<span class='no'>formula</span>, <span class='no'>df</span>, <span class='kw'>method</span> <span class='kw'>=</span> <span class='st'>"pearson"</span>, <span class='kw'>adj</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>chains</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -111,6 +114,10 @@
     <tr>
       <th>df</th>
       <td><p>data frame containing the data described by the formula</p></td>
+    </tr>
+    <tr>
+      <th>method</th>
+      <td><p>a character string indicating which correlation coefficient to compute. One of "pearson" (default) or "kendall".</p></td>
     </tr>
     <tr>
       <th>adj</th>
@@ -157,6 +164,7 @@ for interval censored values.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Newton, Elizabeth, and Ruthann Rudel. "Estimating correlation with multiply censored data arising from the adjustment of singly censored data." Environmental science &amp; technology 41.1 (2007): 221-228.</p>
+<p>van Doorn, Johnny, et al. "Bayesian Estimation of Kendall's tau Using a Latent Normal Approach." arXiv preprint arXiv:1703.01805 (2017).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
