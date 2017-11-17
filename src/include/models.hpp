@@ -3408,7 +3408,7 @@ public:
         names__.push_back("sigma_xy");
         names__.push_back("sigma_xz");
         names__.push_back("sigma_yz");
-        names__.push_back("cor_xy");
+        names__.push_back("rho_adj");
     }
 
 
@@ -3677,12 +3677,12 @@ public:
         stan::math::initialize(sigma_yz, std::numeric_limits<double>::quiet_NaN());
         stan::math::fill(sigma_yz,DUMMY_VAR__);
         stan::math::assign(sigma_yz,get_base1(T_yz,1,2,"T_yz",1));
-        double cor_xy(0.0);
-        (void) cor_xy;  // dummy to suppress unused var warning
+        double rho_adj(0.0);
+        (void) rho_adj;  // dummy to suppress unused var warning
 
-        stan::math::initialize(cor_xy, std::numeric_limits<double>::quiet_NaN());
-        stan::math::fill(cor_xy,DUMMY_VAR__);
-        stan::math::assign(cor_xy,((((sigma_xy - sigma_xz) - sigma_yz) + pow(sigma_z,2)) / sqrt((((pow(sigma_x,2) + pow(sigma_z,2)) - (2 * sigma_xz)) * ((pow(sigma_y,2) + pow(sigma_z,2)) - (2 * sigma_yz))))));
+        stan::math::initialize(rho_adj, std::numeric_limits<double>::quiet_NaN());
+        stan::math::fill(rho_adj,DUMMY_VAR__);
+        stan::math::assign(rho_adj,((((sigma_xy - sigma_xz) - sigma_yz) + pow(sigma_z,2)) / sqrt((((pow(sigma_x,2) + pow(sigma_z,2)) - (2 * sigma_xz)) * ((pow(sigma_y,2) + pow(sigma_z,2)) - (2 * sigma_yz))))));
 
 
         try {
@@ -3698,7 +3698,7 @@ public:
         vars__.push_back(sigma_xy);
         vars__.push_back(sigma_xz);
         vars__.push_back(sigma_yz);
-        vars__.push_back(cor_xy);
+        vars__.push_back(rho_adj);
 
     }
 
@@ -3818,7 +3818,7 @@ public:
         param_name_stream__ << "sigma_yz";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "cor_xy";
+        param_name_stream__ << "rho_adj";
         param_names__.push_back(param_name_stream__.str());
     }
 
@@ -3910,7 +3910,7 @@ public:
         param_name_stream__ << "sigma_yz";
         param_names__.push_back(param_name_stream__.str());
         param_name_stream__.str(std::string());
-        param_name_stream__ << "cor_xy";
+        param_name_stream__ << "rho_adj";
         param_names__.push_back(param_name_stream__.str());
     }
 

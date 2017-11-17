@@ -127,7 +127,7 @@ censcor <- function(formula, df, method = "pearson", adj = NULL, chains = 4, ...
                data = data,
                control = list(adapt_delta = 0.95, max_treedepth = 15),
                chains = chains,
-               pars = c("sigma_x", "sigma_y", "sigma_z", "mu_x", "mu_y", "mu_z", "rho_xy", "rho_xz", "rho_yz", "cor_xy"),
+               pars = c("sigma_x", "sigma_y", "sigma_z", "mu_x", "mu_y", "mu_z", "rho_xy", "rho_xz", "rho_yz", "rho_adj"),
                init = inits,
                ...)
     }

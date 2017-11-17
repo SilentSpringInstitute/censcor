@@ -230,5 +230,5 @@ generated quantities {
   real sigma_xz = T_xz[1, 2];
   real sigma_yz = T_yz[1, 2];
   
-  real cor_xy = (sigma_xy - sigma_xz - sigma_yz + pow(sigma_z, 2)) / sqrt((pow(sigma_x, 2) + pow(sigma_z, 2) - 2 * sigma_xz) * (pow(sigma_y, 2) + pow(sigma_z, 2) - 2 * sigma_yz));
+  real rho_adj = (sigma_xy - sigma_xz - sigma_yz + pow(sigma_z, 2)) / sqrt((pow(sigma_x, 2) + pow(sigma_z, 2) - 2 * sigma_xz) * (pow(sigma_y, 2) + pow(sigma_z, 2) - 2 * sigma_yz));
 }

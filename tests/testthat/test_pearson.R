@@ -67,7 +67,7 @@ test_that("pearson correlation estimation returns accurate values", {
       
       fit <- censcor(x | cens(x_cens) ~ y | cens(y_cens), d1, adj = ~adj, seed = 1, iter = 600)
       
-      expect_equal(rstan::summary(fit)$summary["cor_xy", "50%"], 0.709, tol = 0.01)
+      expect_equal(rstan::summary(fit)$summary["rho_adj", "50%"], 0.709, tol = 0.01)
     })
   })
 })
