@@ -2,7 +2,7 @@
 #' 
 #' @param formula formula describing the correlation to estimate
 #' @param df data frame containing the data described by the formula
-#' @param method a character string indicating which correlation coefficient to compute. One of "pearson" (default) or "kendall".
+#' @param method a character string indicating which correlation coefficient to compute. One of "pearson" (default), "spearman", or "kendall".
 #' @param adj formula adjustment column used for data
 #' @param chains number of MCMC chains to run
 #' @param ... arguments passed to rstan::sampling
