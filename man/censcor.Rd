@@ -11,7 +11,7 @@ censcor(formula, df, method = "pearson", adj = NULL, chains = 4, ...)
 
 \item{df}{data frame containing the data described by the formula}
 
-\item{method}{a character string indicating which correlation coefficient to compute. One of "pearson" (default) or "kendall".}
+\item{method}{a character string indicating which correlation coefficient to compute. One of "pearson" (default), "spearman", or "kendall".}
 
 \item{adj}{formula adjustment column used for data}
 
